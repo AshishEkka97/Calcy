@@ -23,26 +23,26 @@ class KeyPadView @JvmOverloads constructor(
         initViews()
     }
 
-    private var onKeyEntered: ((String) -> Unit)? = null
+    private var onKeyEntered: ((Char) -> Unit)? = null
 
     private fun initViews() {
         val layoutInflater = LayoutInflater.from(context)
         binding = LayoutKeypadBinding.inflate(layoutInflater, this)
         binding.apply {
-            row1.addClickListenersOnButtons { onKeyEntered?.invoke((it as Button).text.toString()) }
-            row2.addClickListenersOnButtons { onKeyEntered?.invoke((it as Button).text.toString()) }
-            row3.addClickListenersOnButtons { onKeyEntered?.invoke((it as Button).text.toString()) }
-            row4.addClickListenersOnButtons { onKeyEntered?.invoke((it as Button).text.toString()) }
+            row1.addClickListenersOnButtons { onKeyEntered?.invoke((it as Button).text[0]) }
+            row2.addClickListenersOnButtons { onKeyEntered?.invoke((it as Button).text[0]) }
+            row3.addClickListenersOnButtons { onKeyEntered?.invoke((it as Button).text[0]) }
+            row4.addClickListenersOnButtons { onKeyEntered?.invoke((it as Button).text[0]) }
         }
     }
 
-    fun setOnKeyEntered(lambda: (String) -> Unit) {
+    fun setOnKeyEntered(lambda: (Char) -> Unit) {
         onKeyEntered = lambda
     }
 }
 
 fun LinearLayout.addClickListenersOnButtons(listener: View.OnClickListener) {
-    this.children.filter { it is Button }.forEach { button ->
+    this.children.filter { it is Button && it.text.length == 1 }.forEach { button ->
         button.setOnClickListener(listener)
     }
 }
