@@ -2,12 +2,23 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/fragment_calculator">
+    app:startDestination="@id/fragment_calculator_dest">
 
     <fragment
-        android:id="@+id/fragment_calculator"
+        android:id="@+id/fragment_calculator_dest"
         android:name="me.ashishekka.calcy.ui.CalculatorFragment"
         android:label="@string/app_name">
+        <action
+            android:id="@+id/action_fragment_calculator_dest_to_fragment_history_dest"
+            app:destination="@id/fragment_history_dest"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@animator/nav_default_exit_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
 
+    <fragment
+        android:id="@+id/fragment_history_dest"
+        android:name="me.ashishekka.calcy.ui.HistoryFragment"
+        android:label="History">
     </fragment>
 </navigation>

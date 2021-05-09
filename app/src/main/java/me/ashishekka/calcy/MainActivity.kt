@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setUpAppBar(): AppBarConfiguration =
-        AppBarConfiguration.Builder(R.id.fragment_calculator).build().also {
+        AppBarConfiguration.Builder(R.id.fragment_calculator_dest).build().also {
             setupActionBarWithNavController(navController, appBarConfiguration)
         }
 

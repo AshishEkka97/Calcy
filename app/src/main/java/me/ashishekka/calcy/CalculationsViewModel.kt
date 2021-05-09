@@ -3,10 +3,16 @@ package me.ashishekka.calcy
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
+import me.ashishekka.calcy.data.Calculation
+import me.ashishekka.calcy.data.source.CalculationsRepository
 import java.lang.Exception
 import java.util.*
 
-class CalculationsViewModel : ViewModel() {
+class CalculationsViewModel(
+    private val calculationsRepository: CalculationsRepository
+) : ViewModel() {
 
     companion object {
         private const val TAG = "CalculationsViewModel"
@@ -17,6 +23,9 @@ class CalculationsViewModel : ViewModel() {
 
     private val mutableResult = MutableLiveData("")
     val result: LiveData<String> get() = mutableResult
+
+    private val mutableHistory: MutableLiveData<List<Calculation>> = MutableLiveData(emptyList())
+    val history: LiveData<List<Calculation>> get() = mutableHistory
 
     private val operatorsByPrecedence = arrayOf('*', '+', '/', '-')
 
@@ -54,6 +63,11 @@ class CalculationsViewModel : ViewModel() {
         }
     }
 
+    fun onClear() {
+        mutableExpression.postValue("")
+        mutableResult.postValue("")
+    }
+
     private fun isOperator(value: Char) = value in operatorsByPrecedence
 
     private fun String.isOperator(): Boolean {
@@ -61,13 +75,15 @@ class CalculationsViewModel : ViewModel() {
     }
 
     private fun String.calculateAndSaveExpression() {
-        val array = this.getExpressionList()
-        val result = try {
-            array.calculateExpression(operatorsByPrecedence)
+        val expressionList = this.getExpressionList()
+        val result: Int
+        try {
+            result = expressionList.calculateExpression(operatorsByPrecedence)
+            mutableResult.postValue(result.toString())
+            saveToHistory(expressionList, result)
         } catch (ex: Exception) {
             mutableResult.postValue(ex.message)
         }
-        mutableResult.postValue(result.toString())
     }
 
     private fun String.getExpressionList(): List<String> {
@@ -146,9 +162,24 @@ class CalculationsViewModel : ViewModel() {
             try {
                 operand2 / operand1
             } catch (ex: ArithmeticException) {
-                throw IllegalArgumentException("Can't divide by zero")
+                throw IllegalArgumentException("Can't / by 0")
             }
         }
         else -> 0
+    }
+
+    private fun saveToHistory(expression: List<String>, result: Int) {
+        val calculation = Calculation(UUID.randomUUID().toString(), expression, result)
+        calculationsRepository.addToHistory(calculation)
+    }
+
+    fun getCalculationHistory() {
+        mutableHistory.postValue(calculationsRepository.getHistory())
+    }
+
+    fun getCalculation(id: String) {
+        val calculation = calculationsRepository.getCalculation(id)
+        mutableExpression.postValue(calculation.expression.joinToString(""))
+        mutableResult.postValue(calculation.result.toString())
     }
 }

@@ -24,6 +24,7 @@ class KeyPadView @JvmOverloads constructor(
     }
 
     private var onKeyEntered: ((Char) -> Unit)? = null
+    private var onClear: (() -> Unit)? = null
 
     private fun initViews() {
         val layoutInflater = LayoutInflater.from(context)
@@ -33,11 +34,16 @@ class KeyPadView @JvmOverloads constructor(
             row2.addClickListenersOnButtons { onKeyEntered?.invoke((it as Button).text[0]) }
             row3.addClickListenersOnButtons { onKeyEntered?.invoke((it as Button).text[0]) }
             row4.addClickListenersOnButtons { onKeyEntered?.invoke((it as Button).text[0]) }
+            buttonClear.setOnLongClickListener { onClear?.invoke(); false }
         }
     }
 
     fun setOnKeyEntered(lambda: (Char) -> Unit) {
         onKeyEntered = lambda
+    }
+
+    fun setOnClear(lambda: () -> Unit) {
+        onClear = lambda
     }
 }
 

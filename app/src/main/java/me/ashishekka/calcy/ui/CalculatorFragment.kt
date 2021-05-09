@@ -5,10 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import me.ashishekka.calcy.CalculationsViewModel
+import me.ashishekka.calcy.R
 import me.ashishekka.calcy.ViewModelFactory
 import me.ashishekka.calcy.databinding.FragmentCalculatorBinding
+import me.ashishekka.calcy.utils.getViewModelFactory
 
 class CalculatorFragment : Fragment() {
 
@@ -22,7 +26,7 @@ class CalculatorFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
-    private val viewModel by viewModels<CalculationsViewModel> { ViewModelFactory(this) }
+    private val viewModel by activityViewModels<CalculationsViewModel> { getViewModelFactory() }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,17 +39,22 @@ class CalculatorFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        binding.keyPad.setOnKeyEntered { viewModel.onKeyEntered(it) }
+        binding.keyPad.apply {
+            setOnKeyEntered { viewModel.onKeyEntered(it) }
+            setOnClear { viewModel.onClear() }
+        }
+        binding.buttonHistory.setOnClickListener {
+            findNavController().navigate(R.id.action_fragment_calculator_dest_to_fragment_history_dest)
+        }
         observeData()
     }
 
     private fun observeData() {
-        viewModel.expression.observe(
-            viewLifecycleOwner,
-            { binding.expressionText.text = it.toString() }
-        )
+        viewModel.expression.observe(viewLifecycleOwner, {
+            binding.textExpression.text = it.toString()
+        })
         viewModel.result.observe(viewLifecycleOwner, {
-            binding.resultText.text = it.toString()
+            binding.textResult.text = it.toString()
         })
     }
 
