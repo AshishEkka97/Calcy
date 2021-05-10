@@ -1,6 +1,7 @@
 package me.ashishekka.calcy.utils
 
 import java.util.ArrayDeque
+import kotlin.NumberFormatException
 
 object CalculationUtil {
 
@@ -31,6 +32,8 @@ object CalculationUtil {
     /**
      * Calculates the provided expression using the provided operator precedence array.
      * @param operatorPrecedence - An [Char] array indicating operator precedence.
+     * @return [Int] denoting the result of expression.
+     * @throws [ArithmeticException] in case of an impossible arithmetic expression is provided.
      */
     fun List<String>.calculateExpression(operatorPrecedence: Array<Char>): Int {
         val values = ArrayDeque<Int>()
@@ -53,7 +56,11 @@ object CalculationUtil {
                 }
                 operator.push(token[0])
             } else {
-                values.push(token.toInt())
+                try {
+                    values.push(token.toInt())
+                } catch (ex: NumberFormatException) {
+                    throw NumberFormatException("Invalid Input")
+                }
             }
         }
 
@@ -86,16 +93,10 @@ object CalculationUtil {
      * @param operator - the operator
      */
     private fun operate(operand1: Int, operand2: Int, operator: Char) = when (operator) {
-        '*' -> operand2 * operand1
-        '+' -> operand2 + operand1
-        '-' -> operand2 - operand1
-        '/' -> {
-            try {
-                operand2 / operand1
-            } catch (ex: ArithmeticException) {
-                throw IllegalArgumentException("Can't / by 0")
-            }
-        }
+        '*' -> Math.multiplyExact(operand2, operand1)
+        '+' -> Math.addExact(operand2, operand1)
+        '-' -> Math.subtractExact(operand2, operand1)
+        '/' -> operand2 / operand1
         else -> 0
     }
 
