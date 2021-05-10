@@ -1,9 +1,9 @@
-package me.ashishekka.calcy.ui
+package me.ashishekka.calcy.calculator.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import me.ashishekka.calcy.data.Calculation
+import me.ashishekka.calcy.calculator.data.Calculation
 import me.ashishekka.calcy.databinding.ItemCalculationBinding
 
 class CalculationAdapter(

@@ -1,6 +1,6 @@
-package me.ashishekka.calcy.data.source
+package me.ashishekka.calcy.calculator.data.source
 
-import me.ashishekka.calcy.data.Calculation
+import me.ashishekka.calcy.calculator.data.Calculation
 import java.security.InvalidKeyException
 
 class LRUCacheDataSource(private val capacity: Int = 10) : CalculationDataSource {

@@ -1,8 +1,9 @@
-package me.ashishekka.calcy.data.source
+package me.ashishekka.calcy.calculator.data.source
 
-import me.ashishekka.calcy.data.Calculation
+import me.ashishekka.calcy.calculator.data.Calculation
 
-class DefaultCalculationsRepository(private val localDataSource: CalculationDataSource) : CalculationsRepository {
+class DefaultCalculationsRepository(private val localDataSource: CalculationDataSource) :
+    CalculationsRepository {
 
     override fun addToHistory(calculation: Calculation) {
         localDataSource.addCalculation(calculation)

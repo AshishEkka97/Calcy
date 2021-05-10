@@ -1,12 +1,10 @@
-package me.ashishekka.calcy
+package me.ashishekka.calcy.calculator.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.launch
-import me.ashishekka.calcy.data.Calculation
-import me.ashishekka.calcy.data.source.CalculationsRepository
+import me.ashishekka.calcy.calculator.data.Calculation
+import me.ashishekka.calcy.calculator.data.source.CalculationsRepository
 import me.ashishekka.calcy.utils.CalculationUtil.calculateExpression
 import me.ashishekka.calcy.utils.CalculationUtil.getExpressionList
 import me.ashishekka.calcy.utils.CalculationUtil.isOperator
@@ -44,15 +42,14 @@ class CalculationsViewModel(
                 }
 
                 value.isOperator() -> {
-                    it.takeIf { it.isNotEmpty() }?.let { expr ->
+                    it.takeIf { it.isNotEmpty() && !(it.last().isOperator()) }?.let { expr ->
                         mutableExpression.postValue(expr.plus(value))
                     }
                 }
 
                 value == '=' -> {
-                    it.takeIf {
-                        it.isNotEmpty() && !(it.last().isOperator())
-                    }?.calculateAndSaveExpression()
+                    it.takeIf { it.isNotEmpty() && !(it.last().isOperator()) }
+                        ?.calculateAndSaveExpression()
                 }
 
                 value == 'C' -> {

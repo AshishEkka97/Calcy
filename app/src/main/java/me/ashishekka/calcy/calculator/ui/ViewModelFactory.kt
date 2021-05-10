@@ -1,11 +1,11 @@
-package me.ashishekka.calcy
+package me.ashishekka.calcy.calculator.ui
 
 import android.os.Bundle
 import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.savedstate.SavedStateRegistryOwner
-import me.ashishekka.calcy.data.source.CalculationsRepository
+import me.ashishekka.calcy.calculator.data.source.CalculationsRepository
 import java.lang.IllegalArgumentException
 
 @Suppress("UNCHECKED_CAST")

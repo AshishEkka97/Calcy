@@ -1,4 +1,4 @@
-package me.ashishekka.calcy.ui
+package me.ashishekka.calcy.calculator.ui
 
 import android.content.Context
 import android.util.AttributeSet

@@ -1,4 +1,4 @@
-package me.ashishekka.calcy.ui
+package me.ashishekka.calcy.calculator.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,11 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import me.ashishekka.calcy.CalculationsViewModel
 import me.ashishekka.calcy.R
-import me.ashishekka.calcy.ViewModelFactory
 import me.ashishekka.calcy.databinding.FragmentCalculatorBinding
 import me.ashishekka.calcy.utils.getViewModelFactory
 
@@ -42,9 +39,6 @@ class CalculatorFragment : Fragment() {
         binding.keyPad.apply {
             setOnKeyEntered { viewModel.onKeyEntered(it) }
             setOnClear { viewModel.onClear() }
-        }
-        binding.buttonHistory.setOnClickListener {
-            findNavController().navigate(R.id.action_fragment_calculator_dest_to_fragment_history_dest)
         }
         observeData()
     }

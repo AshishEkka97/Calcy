@@ -1,10 +1,9 @@
 package me.ashishekka.calcy
 
-import android.content.Context
 import androidx.annotation.VisibleForTesting
-import me.ashishekka.calcy.data.source.LRUCacheDataSource
-import me.ashishekka.calcy.data.source.CalculationsRepository
-import me.ashishekka.calcy.data.source.DefaultCalculationsRepository
+import me.ashishekka.calcy.calculator.data.source.LRUCacheDataSource
+import me.ashishekka.calcy.calculator.data.source.CalculationsRepository
+import me.ashishekka.calcy.calculator.data.source.DefaultCalculationsRepository
 
 object ServiceLocator {
 
