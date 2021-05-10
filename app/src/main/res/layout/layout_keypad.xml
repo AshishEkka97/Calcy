@@ -131,7 +131,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="@string/equals"
-                android:textColor="?attr/colorPrimary"
+                android:textColor="?attr/colorSecondary"
                 android:textSize="50sp" />
         </LinearLayout>
 
